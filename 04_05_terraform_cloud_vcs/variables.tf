@@ -10,15 +10,15 @@ variable "region" {
 }
 
 variable "instance_count" {
-  type = number
+  type    = number
   default = 1
 }
 
 variable "instance_tags" {
-    type = map
-    default = {
-      "environment" = "dev"
-    }
+  type = map
+  default = {
+    "environment" = "dev"
+  }
 }
 # //////////////////////////////
 # OUTPUT
