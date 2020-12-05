@@ -2,7 +2,7 @@ version: 2
 
 jobs:
   fmt:
-    working_directory: /tmp/app
+    working_directory: /code
     docker:
       - image: hashicorp/terraform:light
     steps:
@@ -16,52 +16,27 @@ jobs:
             terraform fmt -no-color -check -diff "./terraform"
 
   plan:
-    working_directory: /tmp/app
+    working_directory: /code
     docker:
       - image: hashicorp/terraform:light
     steps:
       - checkout
       - run:
-          name: configure cli
-          command: |-
-            mkdir -p /root/.terraform.d
-            cat << EOF > /root/.terraform.d/credentials.tfrc.json
-            {
-              "credentials": {
-                "app.terraform.io": {
-                  "token": "$TFTOKEN"
-                }
-              }
-            }
-            EOF
-      - run:
-          name: init && plan
+          name: terraform init & plan
           command: |
-            cd "./environments/dev"
-            terraform init -input=false "../../terraform/"
-            terraform plan "../../terraform/"
+            cd ./environments/dev
+            terraform init -input=false ../../terraform/
+            terraform plan -out tfapply -var-file=dev.tfvars
       - persist_to_workspace:
           root: .
           paths:
             - .
 
-  post_plan:
-    working_directory: /tmp/app
-    docker:
-      - image: hashicorp/terraform:light
-    steps:
-      - run:
-          name: post plan check.
-          command: pwd && ls
-
 workflows:
   version: 2
   plan_approve_apply:
     jobs:
-      - fmt
-      - plan:
-          requires:
-            - fmt
-      - post_plan:
-          requires:
-            - plan
+    - fmt 
+    - plan:
+        requires:
+          - fmt

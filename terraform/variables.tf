@@ -9,7 +9,6 @@ variable "region" {}
 
 variable "instance_type" {}
 
-
 variable "instance_tags" {
   type = map(string)
 }
