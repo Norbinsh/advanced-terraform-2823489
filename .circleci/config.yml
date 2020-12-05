@@ -14,13 +14,9 @@ jobs:
           name: terraform fmt
           command: |
             terraform fmt -no-color -check -diff "./terraform"
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
 
   plan:
-    working_directory: /tmp/project
+    working_directory: /tmp/app
     docker:
       - image: hashicorp/terraform:light
     steps:
@@ -28,18 +24,31 @@ jobs:
       - run:
           name: terraform init & plan
           command: |
+            cd "./environments/dev"
             terraform init -input=false
-            terraform plan -out tfapply -var-file variables.tfvars
+            terraform plan -out tfapply
       - persist_to_workspace:
           root: .
           paths:
             - .
+
+  post_plan:
+    working_directory: /tmp/app
+    docker:
+      - image: hashicorp/terraform:light
+    steps:
+      - run:
+          name: post plan check
+          command: ls "./environments/dev"
 
 workflows:
   version: 2
   fmt_plan_approve_apply:
     jobs:
       - fmt
-      # - plan:
-      #   requires:
-      #     - fmt
+      - plan:
+        requires:
+          - fmt
+      - post_plan:
+        requires:
+          - plan
