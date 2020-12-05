@@ -1,0 +1,27 @@
+version: '2.1'
+orbs:
+  terraform: 'circleci/terraform@dev:alpha'
+workflows:
+  validate_infrastructure:
+    jobs:
+      - terraform/fmt:
+          pre-steps:
+            - checkout
+            - run:
+                command: "ls -l && pwd"
+          checkout: true
+          context: terraform
+          path: $TFPATH
+      - terraform/validate:
+          checkout: true
+          context: terraform
+          path: $TFPATH
+          requires:
+            - terraform/fmt
+      - terraform/plan:
+          checkout: true
+          context: terraform
+          persist-workspace: true
+          path: $TFPATH
+          requires:
+            - terraform/validate
