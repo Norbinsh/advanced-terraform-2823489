@@ -25,14 +25,14 @@ jobs:
           name: configure cli
           command: |-
             cat << EOF > /root/.terraform.d/credentials.tfrc.json
-{
-  "credentials": {
-    "app.terraform.io": {
-      "token": $TFTOKEN
-    }
-  }
-}
-EOF
+            {
+              "credentials": {
+                "app.terraform.io": {
+                  "token": $TFTOKEN
+                }
+              }
+            }
+            EOF
       - run:
           name: init && plan
           command: |
