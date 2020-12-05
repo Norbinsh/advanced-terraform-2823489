@@ -38,7 +38,7 @@ jobs:
       - image: hashicorp/terraform:light
     steps:
       - run:
-          name: post plan check
+          name: post plan check.
           command: ls "./environments/dev"
 
 workflows:
