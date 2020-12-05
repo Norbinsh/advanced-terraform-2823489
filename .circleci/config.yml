@@ -8,8 +8,8 @@ jobs:
     steps:
       - checkout
       - run:
-        name: print cwd and list content
-        command: pwd && ls
+          name: print cwd and list content
+          command: pwd && ls
       - run:
           name: terraform fmt
           command: |
