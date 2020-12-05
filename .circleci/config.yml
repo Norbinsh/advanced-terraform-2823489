@@ -38,8 +38,8 @@ jobs:
           name: init && plan
           command: |
             cd "./environments/dev"
-            terraform init "../../terraform/" -input=false
-            terraform plan "../../terraform/" -out tfapply
+            terraform init -input=false "../../terraform/"
+            terraform plan -out tfapply "../../terraform/"
       - persist_to_workspace:
           root: .
           paths:
