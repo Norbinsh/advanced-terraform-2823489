@@ -4,10 +4,10 @@ terraform {
     aws = ">=3.0.0"
   }
   backend "s3" {
-    region  = "us-east-1"
-    profile = "terraform"
-    key     = "state"
-    bucket  = "terrastate975"
+    region         = "us-east-1"
+    profile        = "terraform"
+    key            = "state"
+    bucket         = "terrastate975"
     dynamodb_table = "terrastate975"
   }
 }
