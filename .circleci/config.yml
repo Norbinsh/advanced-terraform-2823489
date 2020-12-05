@@ -25,7 +25,15 @@ jobs:
           name: terraform init & plan
           command: |
             cd "./environments/dev"
-            terraform login
+            cat << EOF > /root/.terraform.d/credentials.tfrc.json
+{
+  "credentials": {
+    "app.terraform.io": {
+      "token": $TFTOKEN
+    }
+  }
+}
+EOF
             terraform init -input=false
             terraform plan -out tfapply
       - persist_to_workspace:
