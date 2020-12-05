@@ -25,6 +25,7 @@ jobs:
           name: terraform init & plan
           command: |
             cd "./environments/dev"
+            terraform login
             terraform init -input=false
             terraform plan -out tfapply
       - persist_to_workspace:
