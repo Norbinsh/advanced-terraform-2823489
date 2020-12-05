@@ -10,18 +10,15 @@ workflows:
             - run:
                 command: "ls -l && pwd"
           checkout: true
-          context: terraform
-          path: $TFPATH
+          path: "./04_05_terraform_cloud_vcs/"
       - terraform/validate:
           checkout: true
-          context: terraform
-          path: $TFPATH
+          path: "./04_05_terraform_cloud_vcs/"
           requires:
             - terraform/fmt
       - terraform/plan:
           checkout: true
-          context: terraform
           persist-workspace: true
-          path: $TFPATH
+          path: "./04_05_terraform_cloud_vcs/"
           requires:
             - terraform/validate
