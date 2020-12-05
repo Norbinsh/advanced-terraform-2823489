@@ -5,21 +5,18 @@ variable "aws_access_key" {}
 
 variable "aws_secret_key" {}
 
-variable "region" {
-  default = "us-east-1"
+variable "region" {}
+
+variable "instance_type" {}
+
+variable "instance_tags" {
+  type = map(string)
 }
 
 variable "instance_count" {
-  type    = number
-  default = 1
+  type = number
 }
 
-variable "instance_tags" {
-  type = map(any)
-  default = {
-    "environment" = "dev"
-  }
-}
 # //////////////////////////////
 # OUTPUT
 # //////////////////////////////

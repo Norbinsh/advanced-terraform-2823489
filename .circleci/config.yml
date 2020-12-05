@@ -1,20 +1,44 @@
-version: '2.1'
-orbs:
-  terraform: 'circleci/terraform@dev:alpha'
+version: 2
+
+jobs:
+  fmt:
+    working_directory: /code
+    docker:
+      - image: hashicorp/terraform:light
+    steps:
+      - checkout
+      - run:
+          name: print cwd and list content
+          command: pwd && ls
+      - run:
+          name: terraform fmt
+          command: |
+            terraform fmt -no-color -check -diff "./terraform"
+
+  plan:
+    working_directory: /code
+    docker:
+      - image: hashicorp/terraform:light
+    steps:
+      - checkout
+      - run:
+          name: terraform init & plan
+          command: |
+            pwd && ls
+            cd ./environments/dev
+            pwd && ls
+            terraform init -input=false ../../terraform/
+            terraform plan -out tfapply -var-file=dev.tfvars ../../terraform/
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
 workflows:
-  validate_infrastructure:
+  version: 2
+  plan_approve_apply:
     jobs:
-      - terraform/fmt:
-          pre-steps:
-            - checkout
-            - run:
-                command: "terraform version"
-            - run:
-                command: "ls -l && pwd"
-          checkout: true
-          path: "./terraform/"
-      - terraform/validate:
-          checkout: true
-          path: "./terraform/"
-          requires:
-            - terraform/fmt
+    - fmt 
+    - plan:
+        requires:
+          - fmt
