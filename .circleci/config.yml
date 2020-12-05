@@ -24,7 +24,9 @@ jobs:
       - run:
           name: terraform init & plan
           command: |
+            pwd && ls
             cd ./environments/dev
+            pwd && ls
             terraform init -input=false ../../terraform/
             terraform plan -out tfapply -var-file=dev.tfvars ../../terraform/
       - persist_to_workspace:
