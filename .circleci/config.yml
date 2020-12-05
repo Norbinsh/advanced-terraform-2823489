@@ -18,9 +18,3 @@ workflows:
           path: "./terraform/"
           requires:
             - terraform/fmt
-      - terraform/plan:
-          checkout: true
-          persist-workspace: true
-          path: "./terraform/"
-          requires:
-            - terraform/validate
