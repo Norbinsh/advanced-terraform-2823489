@@ -2,11 +2,14 @@ version: 2
 
 jobs:
   fmt:
-    working_directory: /
+    working_directory: /tmp/app
     docker:
       - image: hashicorp/terraform:light
     steps:
       - checkout
+      - run:
+        name: print cwd and list content
+        command: pwd && ls
       - run:
           name: terraform fmt
           command: |
