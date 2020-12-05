@@ -43,12 +43,12 @@ jobs:
 
 workflows:
   version: 2
-  fmt_plan_approve_apply:
+  plan_approve_apply:
     jobs:
       - fmt
       - plan:
-        requires:
-          - fmt
+          requires:
+            - fmt
       - post_plan:
-        requires:
-          - plan
+          requires:
+            - plan
