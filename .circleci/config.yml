@@ -8,6 +8,8 @@ workflows:
           pre-steps:
             - checkout
             - run:
+                command: "terraform version"
+            - run:
                 command: "ls -l && pwd"
           checkout: true
           path: "./04_05_terraform_cloud_vcs/"
