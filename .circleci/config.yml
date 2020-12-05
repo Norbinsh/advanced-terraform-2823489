@@ -13,7 +13,7 @@ jobs:
       - run:
           name: terraform fmt
           command: |
-            terraform fmt -no-color -check -diff "/terraform"
+            terraform fmt -no-color -check -diff "./terraform"
       - persist_to_workspace:
           root: .
           paths:
