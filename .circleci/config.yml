@@ -39,7 +39,7 @@ jobs:
           command: |
             cd "./environments/dev"
             terraform init -input=false "../../terraform/"
-            terraform plan -out tfapply "../../terraform/"
+            terraform plan "../../terraform/"
       - persist_to_workspace:
           root: .
           paths:
@@ -52,7 +52,7 @@ jobs:
     steps:
       - run:
           name: post plan check.
-          command: ls "./environments/dev"
+          command: pwd && ls
 
 workflows:
   version: 2
