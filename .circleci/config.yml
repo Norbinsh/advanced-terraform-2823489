@@ -22,9 +22,8 @@ jobs:
     steps:
       - checkout
       - run:
-          name: terraform init & plan
-          command: |
-            cd "./environments/dev"
+          name: configure cli
+          command: |-
             cat << EOF > /root/.terraform.d/credentials.tfrc.json
 {
   "credentials": {
@@ -34,6 +33,9 @@ jobs:
   }
 }
 EOF
+      - run:
+          name: init && plan
+          command: |
             terraform init -input=false
             terraform plan -out tfapply
       - persist_to_workspace:
